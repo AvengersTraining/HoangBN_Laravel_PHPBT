@@ -1,7 +1,5 @@
 <?php
 
-namespace Migration;
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -10,6 +8,8 @@ class CreatePostsTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
     public function up()
     {
@@ -18,17 +18,19 @@ class CreatePostsTable extends Migration
             $table->integer('user_id');
             $table->string('title', 255);
             $table->text('content');
-            $table->string('thumbnail', 255);
-            $table->integer('post_vote');
-            $table->integer('post_view');
-            $table->tinyInteger('is_published');
-            $table->softDeletes(); // delete_at
-            $table->timestamps(); // create_at, updated_at
+            $table->string('thumbnail', 255)->nullable();
+            $table->integer('post_vote')->default(0);
+            $table->integer('post_view')->default(0);
+            $table->tinyInteger('is_published')->default(0);
+            $table->softDeletes()->default(0);
+            $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
     public function down()
     {
