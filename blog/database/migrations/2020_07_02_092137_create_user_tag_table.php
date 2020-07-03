@@ -15,8 +15,8 @@ class CreateUserTagTable extends Migration
     {
         Schema::create('user_tag', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('tag_id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('tag_id');
             $table->timestamps();
         });
     }
