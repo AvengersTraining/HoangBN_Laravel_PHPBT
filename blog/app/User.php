@@ -16,7 +16,18 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'full_name',
+        'display_name',
+        'birthday',
+        'phone_number',
+        'address',
+        'email',
+        'password',
+        'is_admin',
+        'avatar',
+        'status',
+        'remember_token',
+        'delete_at',
     ];
 
     /**
@@ -25,7 +36,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -36,4 +48,33 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the posts for the user
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    /**
+     * Get tags that belong to the user
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    /**
+     * Get the comments belong to user
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function commentedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'comments')->withPivot('content', 'deleted_at');
+    }
 }
