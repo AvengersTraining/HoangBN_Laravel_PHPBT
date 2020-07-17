@@ -21,10 +21,10 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="card">
-                                <img src="{{ Auth::user()->avatar }}" alt="Avatar" class="user-profile-img">
+                                <img src="{{ $user->avatar }}" alt="Avatar" class="user-profile-img">
                                 <span class="update-avatar">Update avatar</span>
-                                <h3 class="user-profile-name">{{ Auth::user()->full_name }}</h3>
-                                <p class="user-profile-gender">{{ Auth::user()->display_name }}</p>
+                                <h3 class="user-profile-name">{{ $user->full_name }}</h3>
+                                <p class="user-profile-gender">{{ $user->display_name }}</p>
                             </div>
                         </div>
                         <div class="col-md-9">
@@ -45,38 +45,43 @@
                                             <tbody>
                                                 <tr class="row user-information-detail">
                                                     <td class="col-md-3">Name</td>
-                                                    <td class="col-md-9">{{ Auth::user()->full_name }}</td>
+                                                    <td class="col-md-9">{{ $user->full_name }}</td>
                                                 </tr>
 
                                                 <tr class="row user-information-detail">
                                                     <td class="col-md-3">Display name</td>
-                                                    <td class="col-md-9">{{ Auth::user()->display_name }}</td>
+                                                    <td class="col-md-9">{{ $user->display_name }}</td>
                                                 </tr>
 
                                                 <tr class="row user-information-detail">
                                                     <td class="col-md-3">Birthday</td>
-                                                    <td class="col-md-9">{{ Auth::user()->birthday }}</td>
+                                                    <td class="col-md-9">{{ $user->birthday }}</td>
                                                 </tr>
 
                                                 <tr class="row user-information-detail">
                                                     <td class="col-md-3">Phone number</td>
-                                                    <td class="col-md-9">{{ Auth::user()->phone_number }}</td>
+                                                    <td class="col-md-9">{{ $user->phone_number }}</td>
                                                 </tr>
 
                                                 <tr class="row user-information-detail">
                                                     <td class="col-md-3">Address</td>
-                                                    <td class="col-md-9">{{ Auth::user()->address }}</td>
+                                                    <td class="col-md-9">{{ $user->address }}</td>
                                                 </tr>
 
                                                 <tr class="row user-information-detail">
-                                                    <td class="col-md-3">Email Address</td>
-                                                    <td class="col-md-9">{{ Auth::user()->email }}</td>
+                                                    <td class="col-md-3">Email</td>
+                                                    <td class="col-md-9">{{ $user->email }}</td>
+                                                </tr>
+
+                                                <tr class="row user-information-detail">
+                                                    <td class="col-md-3">Last update</td>
+                                                    <td class="col-md-9">{{ $user->updated_at }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="user-edit">
-                                        <a href="{{ route('edit', Auth::user()->id) }}">Edit</a>
+                                        <a href="{{ route('edit') }}">Edit</a>
                                     </div>
                                 </div>
                             </div>

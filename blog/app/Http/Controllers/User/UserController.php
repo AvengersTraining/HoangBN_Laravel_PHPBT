@@ -19,7 +19,9 @@ class UserController extends Controller
      */
     public function profile()
     {
-        return view('user/profile');
+        $user = auth()->user();
+
+        return view('user/profile', compact('user'));
     }
 
     /**
@@ -27,7 +29,9 @@ class UserController extends Controller
      */
     public function edit()
     {
-        return view('user/edit');
+        $user = auth()->user();
+
+        return view('user/edit', compact('user'));
     }
 
     /**
@@ -35,17 +39,17 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request)
     {
-        $user = User::find(Auth::user()->id);
-        $info = [
-            'full_name' => $request->input('name'),
-            'display_name' => $request->input('dpname'),
-            'birthday' => $request->input('birthday'),
-            'phone_number' => $request->input('phone'),
-            'address' => $request->input('address'),
-            'email' => $request->input('email'),
-        ];
-        $user->update($info);
+        User::where('id', Auth::user()->id)->update(
+            [
+                'full_name' => $request->input('full_name'),
+                'display_name' => $request->input('display_name'),
+                'birthday' => $request->input('birthday'),
+                'phone_number' => $request->input('phone_number'),
+                'address' => $request->input('address'),
+                'email' => $request->input('email'),
+            ]
+        );
 
-        return redirect()->route('profile', ['id' => $user->id]);
+        return redirect()->route('profile')->with('message', 'Update user information successfully');
     }
 }
