@@ -18,3 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['namespace' => 'User', 'middleware' => ['auth:web']], function () {
+    Route::get('/profile', 'UserController@profile')->name('profile');
+    Route::get('/edit', 'UserController@edit')->name('edit');
+    Route::post('/update', 'UserController@update')->name('update');
+});

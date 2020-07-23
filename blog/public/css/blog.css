@@ -1,0 +1,39 @@
+.container {
+    max-width: 100% !important;
+}
+
+.user-profile-img {
+    margin: 3px auto;
+    width: 120px;
+    height: 120px;
+    border: 5px solid #d2d6de;
+    border-radius: 50%;
+    display: block;
+}
+
+.user-profile-name, .user-profile-gender {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.user-information-detail {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
+.update-avatar {
+    color: #b3b3ba;
+    font-weight: normal;
+    text-align: center;
+    cursor: pointer;
+}
+
+.update-avatar:hover {
+    color: lightblue;
+    font-weight: bold;
+}
+
+.user-edit {
+    text-align: right;
+    font-weight: bold;
+}
