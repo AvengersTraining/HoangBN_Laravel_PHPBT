@@ -39,16 +39,16 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request)
     {
-        User::where('id', Auth::user()->id)->update(
-            [
-                'full_name' => $request->input('full_name'),
-                'display_name' => $request->input('display_name'),
-                'birthday' => $request->input('birthday'),
-                'phone_number' => $request->input('phone_number'),
-                'address' => $request->input('address'),
-                'email' => $request->input('email'),
-            ]
-        );
+        $data = [
+            'full_name' => $request->input('full_name'),
+            'display_name' => $request->input('display_name'),
+            'birthday' => $request->input('birthday'),
+            'phone_number' => $request->input('phone_number'),
+            'address' => $request->input('address'),
+            'email' => $request->input('email'),
+        ];
+
+        User::where('id', Auth::user()->id)->update($data);
 
         return redirect()->route('profile')->with('message', 'Update user information successfully');
     }
