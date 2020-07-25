@@ -43,44 +43,44 @@
                                     <div class="table-responsive">
                                         <table class="table">
                                             <tbody>
-                                                <tr class="row user-information-detail">
+                                                <tr class="row margin-zero">
                                                     <td class="col-md-3">Name</td>
                                                     <td class="col-md-9">{{ $user->full_name }}</td>
                                                 </tr>
 
-                                                <tr class="row user-information-detail">
+                                                <tr class="row margin-zero">
                                                     <td class="col-md-3">Display name</td>
                                                     <td class="col-md-9">{{ $user->display_name }}</td>
                                                 </tr>
 
-                                                <tr class="row user-information-detail">
+                                                <tr class="row margin-zero">
                                                     <td class="col-md-3">Birthday</td>
                                                     <td class="col-md-9">{{ $user->birthday }}</td>
                                                 </tr>
 
-                                                <tr class="row user-information-detail">
+                                                <tr class="row margin-zero">
                                                     <td class="col-md-3">Phone number</td>
                                                     <td class="col-md-9">{{ $user->phone_number }}</td>
                                                 </tr>
 
-                                                <tr class="row user-information-detail">
+                                                <tr class="row margin-zero">
                                                     <td class="col-md-3">Address</td>
                                                     <td class="col-md-9">{{ $user->address }}</td>
                                                 </tr>
 
-                                                <tr class="row user-information-detail">
+                                                <tr class="row margin-zero">
                                                     <td class="col-md-3">Email</td>
                                                     <td class="col-md-9">{{ $user->email }}</td>
                                                 </tr>
 
-                                                <tr class="row user-information-detail">
+                                                <tr class="row margin-zero">
                                                     <td class="col-md-3">Last update</td>
                                                     <td class="col-md-9">{{ $user->updated_at }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="user-edit">
+                                    <div class="edit-button-right">
                                         <a href="{{ route('edit') }}">Edit</a>
                                     </div>
                                 </div>

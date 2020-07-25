@@ -23,3 +23,5 @@ Route::group(['namespace' => 'User', 'middleware' => ['auth:web']], function () 
     Route::get('/edit', 'UserController@edit')->name('edit');
     Route::post('/update', 'UserController@update')->name('update');
 });
+
+Route::resource('tags', 'Tag\TagController', ['middleware' => ['auth:web', 'admin']]);
