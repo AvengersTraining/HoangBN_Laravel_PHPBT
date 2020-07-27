@@ -17,8 +17,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::where('deleted_at', null)
-                ->orderBy('id', 'asc')
+        $tags = Tag::orderBy('id', 'asc')
                 ->paginate(12);
 
         return view('tag/index', compact('tags'));
@@ -47,7 +46,7 @@ class TagController extends Controller
         ];
         Tag::create($data);
 
-        return redirect()->route('tags.index');
+        return redirect()->route('tags.index')->with('message', 'Create tag successfully');
     }
 
     /**
@@ -58,7 +57,7 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        $tag = Tag::where('id', $id)->firstOrFail();
+        $tag = Tag::findOrFail($id);
 
         return view('tag/show', compact('tag'));
     }
@@ -71,7 +70,7 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        $tag = Tag::where('id', $id)->firstOrFail();
+        $tag = Tag::findOrFail($id);
 
         return view('tag/edit', compact('tag'));
     }
@@ -85,12 +84,15 @@ class TagController extends Controller
      */
     public function update(TagRequest $request, $id)
     {
-        $data = [
-            'tag_name' => $request->input('tag_name'),
-        ];
-        Tag::where('id', $id)->update($data);
+        $tag = Tag::find($id);
+        if ($tag != null) {
+            $tag->tag_name = $request->input('tag_name');
+            $tag->save();
 
-        return redirect()->route('tags.index');
+            return redirect()->route('tags.index')->with('message', 'Update tag successfully');
+        }
+
+        return redirect()->back()->with('error', 'The tag does not exist');
     }
 
     /**

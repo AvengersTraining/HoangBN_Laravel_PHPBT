@@ -31,14 +31,7 @@ class TagRequest extends FormRequest
     public function messages()
     {
         return [
-            'tag_name.required' => 'The tag name is required',  
-        ];
-    }
-
-    public function attributes()
-    {
-        return [
-            'tag_name' => 'Tag name',
+            'tag_name.required' => 'The tag name is required',
         ];
     }
 }

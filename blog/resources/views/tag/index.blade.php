@@ -2,10 +2,15 @@
 
 @section('content')
 <div class="container">
+    @if (session('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
     <div class="row justify-content-center">
         <div class="col-md-2">
             <div class="card">
-                <div class="card-header">{{ __('Dashboarh') }}</div>
+                <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
                     <a href="{{ route('home') }}">{{ __('Home') }}</a>
