@@ -16,7 +16,7 @@
     text-align: center;
 }
 
-.user-information-detail {
+.margin-zero {
     margin-right: 0px !important;
     margin-left: 0px !important;
 }
@@ -33,7 +33,23 @@
     font-weight: bold;
 }
 
-.user-edit {
+.edit-button-right {
     text-align: right;
     font-weight: bold;
+}
+
+.tag-table-center {
+    text-align: center;
+}
+
+.tag-delete {
+    margin-left: 10px;
+    display: inline;
+    cursor: pointer;
+    color: red;
+}
+
+.add-tag {
+    margin: 10px 0 0 10px;
+    text-align: left;
 }
