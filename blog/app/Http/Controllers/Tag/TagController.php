@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tag;
 
 use App\Tag;
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Requests\TagRequest;
 use App\Http\Controllers\Controller;
@@ -17,9 +18,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::orderBy('id', 'asc')
-                ->paginate(12);
-
+        $tags = Tag::orderBy('id', 'asc')->paginate(config('blog.tags.tag_limit'));
+        
         return view('tag/index', compact('tags'));
     }
 
@@ -41,10 +41,14 @@ class TagController extends Controller
      */
     public function store(TagRequest $request)
     {
-        $data = [
-            'tag_name' => $request->input('tag_name'),
-        ];
-        Tag::create($data);
+        try {
+            $data = [
+                'tag_name' => $request->input('tag_name'),
+            ];
+            Tag::create($data);
+        } catch (Exception $e) {
+            return redirect()->route('tags.index')->with('error', $e->getMessage());
+        }
 
         return redirect()->route('tags.index')->with('message', 'Create tag successfully');
     }
@@ -84,12 +88,16 @@ class TagController extends Controller
      */
     public function update(TagRequest $request, $id)
     {
-        $tag = Tag::find($id);
-        if ($tag != null) {
-            $tag->tag_name = $request->input('tag_name');
-            $tag->save();
+        try {
+            $tag = Tag::find($id);
+            if ($tag != null) {
+                $tag->tag_name = $request->input('tag_name');
+                $tag->save();
 
-            return redirect()->route('tags.index')->with('message', 'Update tag successfully');
+                return redirect()->route('tags.index')->with('message', 'Update tag successfully');
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
 
         return redirect()->back()->with('error', 'The tag does not exist');
@@ -103,7 +111,12 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
-        $tag = Tag::where('id', $id)->firstOrFail()->delete();
+        try {
+            $tag = Tag::findOrFail($id);
+            $tag->delete();
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
 
         return redirect()->back()->with('message', 'Delete tag successfuly');
     }

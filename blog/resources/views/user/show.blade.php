@@ -2,6 +2,16 @@
 
 @section('content')
 <div class="container">
+    @if (session('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="row justify-content-center">
         <div class="col-md-2">
             <div class="card">
@@ -81,7 +91,7 @@
                                         </table>
                                     </div>
                                     <div class="edit-button-right">
-                                        <a href="{{ route('edit') }}">Edit</a>
+                                        <a href="{{ route('users.edit', $user->id) }}">Edit</a>
                                     </div>
                                 </div>
                             </div>

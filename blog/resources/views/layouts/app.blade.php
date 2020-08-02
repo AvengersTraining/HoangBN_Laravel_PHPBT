@@ -64,7 +64,7 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ route('profile') }}">{{ __('Profile') }}</a>
+                                    <a class="dropdown-item" href="{{ route('users.show', auth()->user()->id) }}">{{ __('Profile') }}</a>
                                     <a class="dropdown-item" href="{{ route('tags.index') }}">{{ __('Tag list') }}</a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
