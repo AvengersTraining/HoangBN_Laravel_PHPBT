@@ -18,7 +18,7 @@ class UserController extends Controller
     /**
      * Display profile ui
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $user = auth()->user();
 
@@ -52,10 +52,12 @@ class UserController extends Controller
             if (User::where('id', $id)->update($data)) {
                 return redirect()->route('users.show', $id)->with('message', 'Update user information successfully');
             }
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
-        }
 
-        return redirect()->back()->with('error', 'Update user information failure');
+            return redirect()->back()->with('error', 'Update user information failure');
+        } catch (Exception $e) {
+            Log::error($e);
+
+            return redirect()->back()->with('error', 'Update user information failure');
+        }
     }
 }

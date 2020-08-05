@@ -44,7 +44,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($users as $key => $user) : ?>
+                                @foreach ($users as $key => $user)
                                 <tr>
                                     <td>{{ $user->id }}</td>
                                     <td>{{ $user->full_name }}</td>
@@ -64,7 +64,7 @@
                                         </form>
                                     </td>
                                 </tr>
-                                <?php endforeach; ?>
+                                @endforeach
                             </tbody>
                         </table>
                         <div class="row justify-content-center margin-zero">

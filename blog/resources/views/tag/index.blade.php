@@ -42,7 +42,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($tags as $key => $tag) : ?>
+                                @foreach ($tags as $key => $tag)
                                 <tr>
                                     <td>{{ $tag->id }}</td>
                                     <td>{{ $tag->tag_name }}</td>
@@ -57,7 +57,7 @@
                                         </form>
                                     </td>
                                 </tr>
-                                <?php endforeach; ?>
+                                @endforeach
                             </tbody>
                         </table>
                         <div class="row justify-content-center margin-zero">

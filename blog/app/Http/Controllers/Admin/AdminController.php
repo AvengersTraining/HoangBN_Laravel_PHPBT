@@ -19,7 +19,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('id', 'asc')->paginate(12);
+        $users = User::orderBy('id', 'asc')->paginate(config('blog.tags.user_limit'));
 
         return view('admin/index', compact('users'));
     }
@@ -27,12 +27,16 @@ class AdminController extends Controller
     public function destroy($id)
     {
         try {
-            $user = User::findOrFail($id);
-            $user->delete();
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
-        }
+            $result = User::where('id', $id)->delete();
+            if ($result) {
+                return redirect()->back()->with('message', 'Delete user successfuly');
+            }
 
-        return redirect()->back()->with('message', 'Delete user successfuly');
+            return redirect()->back()->with('error', 'Delete user failure');
+        } catch (Exception $e) {
+            Log::error($e);
+            
+            return redirect()->back()->with('error', 'Delete user failure');
+        }
     }
 }

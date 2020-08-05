@@ -45,12 +45,15 @@ class TagController extends Controller
             $data = [
                 'tag_name' => $request->input('tag_name'),
             ];
-            Tag::create($data);
-        } catch (Exception $e) {
-            return redirect()->route('tags.index')->with('error', $e->getMessage());
-        }
+            $result = Tag::create($data);
+            if ($result) {
+                return redirect()->route('tags.index')->with('message', 'Create tag successfully');
+            }
 
-        return redirect()->route('tags.index')->with('message', 'Create tag successfully');
+            return redirect()->route('tags.index')->with('message', 'Create tag failure');
+        } catch (Exception $e) {
+            return redirect()->route('tags.index')->with('error', 'Create tag failure');
+        }
     }
 
     /**
@@ -89,18 +92,17 @@ class TagController extends Controller
     public function update(TagRequest $request, $id)
     {
         try {
-            $tag = Tag::find($id);
-            if ($tag != null) {
-                $tag->tag_name = $request->input('tag_name');
-                $tag->save();
-
+            $result = Tag::where('id', $id)->update(['tag_name' => $request->input('tag_name')]);
+            if ($result) {
                 return redirect()->route('tags.index')->with('message', 'Update tag successfully');
             }
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
-        }
 
-        return redirect()->back()->with('error', 'The tag does not exist');
+            return redirect()->route('tags.index')->with('error', 'Update tag failure');
+        } catch (Exception $e) {
+            Log::error($e);
+
+            return redirect()->back()->with('error', 'Update tag failure');
+        }
     }
 
     /**
@@ -112,12 +114,16 @@ class TagController extends Controller
     public function destroy($id)
     {
         try {
-            $tag = Tag::findOrFail($id);
-            $tag->delete();
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
-        }
+            $result = Tag::where('id', $id)->delete();
+            if ($result) {
+                return redirect()->back()->with('message', 'Delete tag successfuly');
+            }
 
-        return redirect()->back()->with('message', 'Delete tag successfuly');
+            return redirect()->back()->with('error', 'Delete tag failure');
+        } catch (Exception $e) {
+            Log::error($e);
+
+            return redirect()->back()->with('error', 'Delete tag failure');
+        }
     }
 }
