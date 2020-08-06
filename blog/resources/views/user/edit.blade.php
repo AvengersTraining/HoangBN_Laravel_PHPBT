@@ -2,6 +2,16 @@
 
 @section('content')
 <div class="container">
+    @if (session('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="row justify-content-center">
         <div class="col-md-8">
             @if ($errors->any())
@@ -17,8 +27,9 @@
                 <div class="card-header">{{ __('Edit information') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('update') }}">
+                    <form method="POST" action="{{ route('users.update', $user->id) }}">
                         @csrf
+                        @method('PUT')
 
                         <div class="form-group row">
                             <label for="full_name" class="col-md-4 col-form-label text-md-right">{{ __('Fullname') }}</label>

@@ -42,7 +42,7 @@
     text-align: center;
 }
 
-.tag-delete {
+.tag-delete, .user-delete{
     margin-left: 10px;
     display: inline;
     cursor: pointer;

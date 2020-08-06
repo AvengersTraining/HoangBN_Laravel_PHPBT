@@ -1,11 +1,19 @@
 $(function(){
     $(".tag-delete").click(function(){
-        let tagId = $(this).closest("tr").find("td").first().text();
-        let isConfirm = confirm("Tag id: " + tagId + "\nAre you sure to delete this tag?");
+        handerDelete(this, 'Tag');
+    });
+
+    $(".user-delete").click(function(){
+        handerDelete(this, 'User');
+    });
+
+    function handerDelete(className, name) {
+        let id = $(className).closest("tr").find("td").first().text();
+        let isConfirm = confirm(name + " id: " + id + "\nAre you sure to delete?");
 
         if (isConfirm) {
-            let btnSubmit = $(this).closest("td").find(".confirm-delete").first();
+            let btnSubmit = $(className).closest("td").find(".confirm-delete").first();
             btnSubmit.submit();
         }
-    });
+    }
 });

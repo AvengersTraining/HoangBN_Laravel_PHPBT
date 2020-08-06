@@ -25,33 +25,40 @@
 
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">{{ __('Tag list') }}</div>
-                <div class="add-tag">
-                    <a href="{{ route('tags.create') }}">Create new tag</a>
-                </div>
+                <div class="card-header">{{ __('User list') }}</div>
                 <div class="card-body">
                     <div class="table-responsive tag-table-center">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th scope="col">{{ __('ID') }}</th>
-                                    <th scope="col">{{ __('Tag name') }}</th>
+                                    <th scope="col">{{ __('Full name') }}</th>
+                                    <th scope="col">{{ __('Display name') }}</th>
+                                    <th scope="col">{{ __('Birthday') }}</th>
+                                    <th scope="col">{{ __('Phone') }}</th>
+                                    <th scope="col">{{ __('Address') }}</th>
+                                    <th scope="col">{{ __('Email') }}</th>
                                     <th scope="col">{{ __('Created at') }}</th>
                                     <th scope="col">{{ __('Updated at') }}</th>
                                     <th scope="col">{{ __('Actions') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($tags as $key => $tag)
+                                @foreach ($users as $key => $user)
                                 <tr>
-                                    <td>{{ $tag->id }}</td>
-                                    <td>{{ $tag->tag_name }}</td>
-                                    <td>{{ $tag->created_at }}</td>
-                                    <td>{{ $tag->updated_at }}</td>
+                                    <td>{{ $user->id }}</td>
+                                    <td>{{ $user->full_name }}</td>
+                                    <td>{{ $user->display_name }}</td>
+                                    <td>{{ $user->birthday }}</td>
+                                    <td>{{ $user->phone_number }}</td>
+                                    <td>{{ $user->address }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->created_at }}</td>
+                                    <td>{{ $user->updated_at }}</td>
                                     <td>
-                                        <a type="button" href="{{ route('tags.show', $tag->id) }}">Detail</a>
-                                        <p class="tag-delete">Delete</p>
-                                        <form action="{{ route('tags.destroy', $tag->id) }}" method="POST" class="confirm-delete">
+                                        <a type="button" href="{{ route('users.show', $user->id) }}">Detail</a>
+                                        <p class="user-delete">Delete</p>
+                                        <form action="{{ route('admins.destroy', $user->id) }}" method="POST" class="confirm-delete">
                                             @csrf
                                             @method('DELETE')
                                         </form>
@@ -61,7 +68,7 @@
                             </tbody>
                         </table>
                         <div class="row justify-content-center margin-zero">
-                            {{ $tags->links() }}
+                            {{ $users->links() }}
                         </div>
                     </div>
                 </div>
