@@ -35,3 +35,4 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
 });
 
 Route::resource('tags', 'Tag\TagController', ['middleware' => ['auth:web', 'admin']]);
+Route::resource('posts', 'PostController', ['middleware' => ['auth:web']]);

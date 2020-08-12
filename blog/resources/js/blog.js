@@ -16,4 +16,8 @@ $(function(){
             btnSubmit.submit();
         }
     }
+
+    $(".save-post").click(function () {
+        $(this).parents('form').submit();
+    });
 });
