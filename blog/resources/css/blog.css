@@ -53,3 +53,33 @@
     margin: 10px 0 0 10px;
     text-align: left;
 }
+
+/* CSS for Post UI */
+.post-title, .post-tag {
+    padding: 10px;
+    display: block;
+    width: inherit;
+    flex-direction: unset;
+}
+
+.post-title:focus, .post-tag:focus {
+    outline: none !important;
+    border:1px solid #5488c7;
+    box-shadow: 0 0 2px #719ECE;
+}
+
+.CodeMirror {
+	height: 70vh;
+}
+
+.CodeMirror .CodeMirror-code .cm-comment {
+    background-color: unset;
+}
+
+.save-post:focus {
+    outline: unset;
+}
+
+.dropdown {
+    float: right;
+}
