@@ -1,7 +1,3 @@
-.container {
-    max-width: 100% !important;
-}
-
 .user-profile-img {
     margin: 3px auto;
     width: 120px;
@@ -151,4 +147,89 @@ h4, h5 {
 
 .popular-header {
     text-align: center;
+}
+
+.post-item {
+    color: unset;
+}
+
+.post-item:hover {
+    color: unset;
+    text-decoration: none;
+}
+
+.author-post {
+    align-items: center;
+}
+
+/* post detail */
+.author-detail p {
+    margin: unset;
+}
+
+.author-name {
+    font-weight: bold;
+}
+
+.user-avatar {
+    padding-right: unset;
+}
+
+.user-avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 40px;
+}
+
+.post-detail-thumbnail, .votes {
+    text-align: center;
+}
+
+.post-detail-thumbnail img {
+    max-width: 800px;
+    max-height: 500px;
+}
+
+.post-vote {
+    position: fixed;
+    width: 90%;
+    margin-top: 80px;
+}
+
+.voted {
+    height: 50px;
+    font-size: 40px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.voted:hover, .voted-btn {
+    color: #6cb2eb;
+}
+
+#down-vote {
+    flex-direction: column-reverse;
+}
+
+.voted:focus {
+    outline: unset;
+}
+
+.btn:focus {
+    box-shadow: none;
+}
+
+.points-vote {
+    margin-top: 10px;
+    height: 30px;
+    font-weight: 700;
+    font-size: large;
+}
+
+.tag-items {
+    background-color: #e6e6eb;
+    border-radius: 5px;
+    padding: 2px;
+    width: fit-content;
+    margin-right: 10px;
 }

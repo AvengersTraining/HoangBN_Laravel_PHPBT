@@ -16,5 +16,8 @@ return [
             'newest' => 'newest',
         ],
         'popular' => 15,
+        'up_vote' => 1,
+        'down_vote' => 0,
+        'remove_vote' => 2,
     ],
 ];
