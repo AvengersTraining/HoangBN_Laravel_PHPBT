@@ -10,15 +10,15 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ asset('js/all.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/blog.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -62,7 +62,9 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ route('profile') }}">{{ __('Profile') }}</a>
+                                    <a class="dropdown-item" href="{{ route('users.show', auth()->user()->id) }}">{{ __('Profile') }}</a>
+                                    <a class="dropdown-item" href="{{ route('tags.index') }}">{{ __('Tag list') }}</a>
+                                    <a class="dropdown-item markdown-ui" href="{{ route('posts.create') }}">{{ __('Create new post') }}</a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
@@ -79,5 +81,6 @@
             @yield('content')
         </main>
     </div>
+    @yield('js')
 </body>
 </html>
