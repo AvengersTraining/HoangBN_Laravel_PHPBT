@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-use App\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -26,12 +25,10 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         switch ($request->get('type')) {
-            case config('blog.posts.type.followings'):
-                $posts = $this->getPostByTagFollowed();
-                break;
             case config('blog.posts.type.newest'):
                 $posts = $this->getPostNewest();
                 break;
+            case config('blog.posts.type.followings'):
             default:
                 $posts = $this->getPostByTagFollowed();
                 break;
@@ -50,6 +47,7 @@ class HomeController extends Controller
 
         $posts = Post::join('post_tag', 'posts.id', '=', 'post_tag.post_id')
             ->whereIn('post_tag.tag_id', $tagIds)
+            ->published()
             ->latest('posts.created_at')
             ->with('user')
             ->paginate(config('blog.posts.post_limit'));
@@ -59,7 +57,7 @@ class HomeController extends Controller
 
     private function getPostNewest()
     {
-        $posts = Post::latest()->paginate(config('blog.posts.post_limit'));
+        $posts = Post::latest()->published()->paginate(config('blog.posts.post_limit'));
     
         return $posts;
     }
@@ -67,6 +65,7 @@ class HomeController extends Controller
     private function getPopularPosts()
     {
         $posts = Post::orderBy('post_vote', 'desc')
+            ->published()
             ->limit(15)
             ->with('user')
             ->limit(config('blog.posts.popular'))
