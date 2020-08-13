@@ -54,7 +54,7 @@
     text-align: left;
 }
 
-/* CSS for Post UI */
+/* tool post */
 .post-title, .post-tag {
     padding: 10px;
     display: block;
@@ -82,4 +82,73 @@
 
 .dropdown {
     float: right;
+}
+
+/* post page */
+.flex-container {
+    display: flex;
+    align-items: center;
+    background-color: #f1f1f1;
+    line-height: 1.2;
+    border-radius: 10px;
+}
+
+#thumbnail-article {
+    margin: 10px;
+}
+
+#thumbnail-article {
+    text-align: center;
+}
+
+#thumbnail-article img{
+    width: 150px;
+    height: 150px;
+}
+
+article {
+    margin: 10px;
+}
+
+article p, h4 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+h4, h5 {
+    font-weight: bold;
+}
+
+.nav-fill .nav-item {
+    flex: unset;
+}
+
+.nav-tag-item a {
+    font-weight: bold;
+    color: unset;
+}
+
+.nav-tabs .nav-link.active {
+    font-weight: bold;
+    color: #3490dc;
+}
+
+.no-post {
+    text-align: center;
+}
+
+.popular-post {
+    border-radius: 5px;
+    background-color: #f1f1f1;
+}
+
+.card-post {
+    padding: 5px;
+}
+
+.popular-header {
+    text-align: center;
 }

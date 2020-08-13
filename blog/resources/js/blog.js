@@ -1,4 +1,14 @@
 $(function(){
+    let url = new URL(window.location.href),
+        type = url.searchParams.get("type");
+    if (type) {
+        $(".nav-tag-item a").each(function () {
+            $(this).removeClass("active");
+        });
+    }
+
+    $(`#${type}`).addClass("active");
+
     $(".tag-delete").click(function(){
         handerDelete(this, 'Tag');
     });
