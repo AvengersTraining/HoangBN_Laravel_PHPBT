@@ -63,7 +63,7 @@ class User extends Authenticatable
      */
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'user_tag')->withTimestamps();
+        return $this->belongsToMany(Tag::class, 'user_tag')->withPivot('tag_id', 'user_id')->withTimestamps();
     }
 
     /**
@@ -76,6 +76,11 @@ class User extends Authenticatable
 
     public function commentedPosts()
     {
-        return $this->belongsToMany(Post::class, 'comments')->withPivot('content', 'deleted_at');
+        return $this->belongsToMany(Post::class, 'comments')->withPivot('content', 'deleted_at')->withTimestamps();
+    }
+
+    public function votedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'votes')->withPivot('type')->withTimestamps();
     }
 }

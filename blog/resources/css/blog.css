@@ -1,7 +1,3 @@
-.container {
-    max-width: 100% !important;
-}
-
 .user-profile-img {
     margin: 3px auto;
     width: 120px;
@@ -54,7 +50,7 @@
     text-align: left;
 }
 
-/* CSS for Post UI */
+/* tool post */
 .post-title, .post-tag {
     padding: 10px;
     display: block;
@@ -82,4 +78,158 @@
 
 .dropdown {
     float: right;
+}
+
+/* post page */
+.flex-container {
+    display: flex;
+    align-items: center;
+    background-color: #f1f1f1;
+    line-height: 1.2;
+    border-radius: 10px;
+}
+
+#thumbnail-article {
+    margin: 10px;
+}
+
+#thumbnail-article {
+    text-align: center;
+}
+
+#thumbnail-article img{
+    width: 150px;
+    height: 150px;
+}
+
+article {
+    margin: 10px;
+}
+
+article p, h4 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+h4, h5 {
+    font-weight: bold;
+}
+
+.nav-fill .nav-item {
+    flex: unset;
+}
+
+.nav-tag-item a {
+    font-weight: bold;
+    color: unset;
+}
+
+.nav-tabs .nav-link.active {
+    font-weight: bold;
+    color: #3490dc;
+}
+
+.no-post {
+    text-align: center;
+}
+
+.popular-post {
+    border-radius: 5px;
+    background-color: #f1f1f1;
+}
+
+.card-post {
+    padding: 5px;
+}
+
+.popular-header {
+    text-align: center;
+}
+
+.post-item {
+    color: unset;
+}
+
+.post-item:hover {
+    color: unset;
+    text-decoration: none;
+}
+
+.author-post {
+    align-items: center;
+}
+
+/* post detail */
+.author-detail p {
+    margin: unset;
+}
+
+.author-name {
+    font-weight: bold;
+}
+
+.user-avatar {
+    padding-right: unset;
+}
+
+.user-avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 40px;
+}
+
+.post-detail-thumbnail, .votes {
+    text-align: center;
+}
+
+.post-detail-thumbnail img {
+    max-width: 800px;
+    max-height: 500px;
+}
+
+.post-vote {
+    position: fixed;
+    width: 90%;
+    margin-top: 80px;
+}
+
+.voted {
+    height: 50px;
+    font-size: 40px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.voted:hover, .voted-btn {
+    color: #6cb2eb;
+}
+
+#down-vote {
+    flex-direction: column-reverse;
+}
+
+.voted:focus {
+    outline: unset;
+}
+
+.btn:focus {
+    box-shadow: none;
+}
+
+.points-vote {
+    margin-top: 10px;
+    height: 30px;
+    font-weight: 700;
+    font-size: large;
+}
+
+.tag-items {
+    background-color: #e6e6eb;
+    border-radius: 5px;
+    padding: 2px;
+    width: fit-content;
+    margin-right: 10px;
 }

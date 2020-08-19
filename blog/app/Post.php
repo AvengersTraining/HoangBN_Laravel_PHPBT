@@ -23,7 +23,9 @@ class Post extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault([
+            'full_name' => 'This account has been removed',
+        ]);
     }
 
     /**
@@ -44,6 +46,25 @@ class Post extends Model
 
     public function commentedUsers()
     {
-        return $this->belongsToMany(User::class, 'comments')->withPivot('content', 'deleted_at');
+        return $this->belongsToMany(User::class, 'comments')->withPivot('content', 'deleted_at')->withTimestamps();
+    }
+
+    /**
+     * Get the votes belong to the post
+     */
+    public function votedUsers()
+    {
+        return $this->belongsToMany(User::class, 'votes')->withPivot('type')->withTimestamps();
+    }
+
+    /**
+     * Scope a query to only include active posts.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('is_published', 0);
     }
 }
