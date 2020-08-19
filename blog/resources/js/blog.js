@@ -10,14 +10,14 @@ $(function(){
     $(`#${type}`).addClass("active");
 
     $(".tag-delete").click(function(){
-        handerDelete(this, 'Tag');
+        handleDelete(this, 'Tag');
     });
 
     $(".user-delete").click(function(){
-        handerDelete(this, 'User');
+        handleDelete(this, 'User');
     });
 
-    function handerDelete(className, name) {
+    function handleDelete (className, name) {
         let id = $(className).closest("tr").find("td").first().text();
         let isConfirm = confirm(name + " id: " + id + "\nAre you sure to delete?");
 
@@ -27,7 +27,41 @@ $(function(){
         }
     }
 
-    $(".save-post").click(function () {
+    $('.save-post').click(function () {
         $(this).parents('form').submit();
     });
+
+    $('#up-vote').click(handleVote);
+
+    $('#down-vote').click(handleVote);
+
+    function handleVote (element) {
+        element = element.currentTarget;
+        let voteType;
+
+        if (!$(element).hasClass('voted-btn')) {
+            $('.voted-btn').removeClass('voted-btn');
+            $('.points-vote').addClass('voted-btn');
+            $(element).addClass('voted-btn');
+            voteType = ((element.id) == 'up-vote') ? 1 : 0;
+        } else {
+            $('.voted-btn').removeClass('voted-btn');
+            voteType = 2;
+        }
+
+        let voteUrl = $('.votes').attr('post-vote-url');
+        $.ajax ({
+            url: voteUrl,
+            type: 'PUT',
+            data: {
+                type: voteType
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (data) {
+                $('.points-vote').html(data);
+            },
+        });
+    }
 });

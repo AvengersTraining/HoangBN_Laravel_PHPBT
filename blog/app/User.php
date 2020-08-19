@@ -76,6 +76,11 @@ class User extends Authenticatable
 
     public function commentedPosts()
     {
-        return $this->belongsToMany(Post::class, 'comments')->withPivot('content', 'deleted_at');
+        return $this->belongsToMany(Post::class, 'comments')->withPivot('content', 'deleted_at')->withTimestamps();
+    }
+
+    public function votedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'votes')->withPivot('type')->withTimestamps();
     }
 }

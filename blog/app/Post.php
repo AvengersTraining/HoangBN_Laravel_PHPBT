@@ -46,7 +46,15 @@ class Post extends Model
 
     public function commentedUsers()
     {
-        return $this->belongsToMany(User::class, 'comments')->withPivot('content', 'deleted_at');
+        return $this->belongsToMany(User::class, 'comments')->withPivot('content', 'deleted_at')->withTimestamps();
+    }
+
+    /**
+     * Get the votes belong to the post
+     */
+    public function votedUsers()
+    {
+        return $this->belongsToMany(User::class, 'votes')->withPivot('type')->withTimestamps();
     }
 
     /**

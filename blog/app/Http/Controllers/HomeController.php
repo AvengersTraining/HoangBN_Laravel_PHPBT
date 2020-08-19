@@ -64,9 +64,8 @@ class HomeController extends Controller
 
     private function getPopularPosts()
     {
-        $posts = Post::orderBy('post_vote', 'desc')
+        $posts = Post::orderBy('post_view', 'desc')
             ->published()
-            ->limit(15)
             ->with('user')
             ->limit(config('blog.posts.popular'))
             ->get();
