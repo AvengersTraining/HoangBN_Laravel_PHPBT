@@ -1,3 +1,5 @@
+const { entries } = require("lodash");
+
 $(function(){
     let url = new URL(window.location.href),
         type = url.searchParams.get("type");
@@ -64,4 +66,23 @@ $(function(){
             },
         });
     }
+
+    let options = {
+        root: null,
+        rootMargin: '30px',
+        threshold: 1
+    }
+
+    let callback = (entries, observer) => {
+        if (entries[0].intersectionRatio === 1) {
+            $('.votes').hide();
+        } else {
+            $('.votes').show();
+        }
+    };
+      
+    let observer = new IntersectionObserver(callback, options);
+
+    let target = document.querySelector('.comments');
+    observer.observe(target);
 });

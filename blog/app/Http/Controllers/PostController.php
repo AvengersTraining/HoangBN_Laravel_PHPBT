@@ -58,7 +58,11 @@ class PostController extends Controller
                 ->where('post_tag.post_id', $post->id)
                 ->get();
 
-        return view('post.show', compact('post', 'tags', 'totalVote', 'userVoted'));
+        $comments = $post->comments()->whereNull('parent_comment_id')->with('user')->get();
+        $replies = $post->comments()->whereNotNull('parent_comment_id')->with('user')->get();
+        $replies = $replies->groupBy('parent_comment_id');
+
+        return view('post.show', compact('post', 'tags', 'totalVote', 'userVoted', 'comments', 'replies'));
     }
 
     /**
@@ -123,5 +127,10 @@ class PostController extends Controller
         }
 
         return $totalVote;
+    }
+
+    public function writeComment()
+    {
+        // Do something
     }
 }
