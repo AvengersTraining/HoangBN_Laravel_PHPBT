@@ -10,6 +10,7 @@ class Post extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'title',
         'content',
         'thumbnail',
@@ -65,6 +66,6 @@ class Post extends Model
      */
     public function scopePublished($query)
     {
-        return $query->where('is_published', 0);
+        return $query->where('is_published', config('blog.posts.published'));
     }
 }
