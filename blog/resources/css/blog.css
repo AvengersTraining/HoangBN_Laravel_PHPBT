@@ -233,3 +233,56 @@ h4, h5 {
     width: fit-content;
     margin-right: 10px;
 }
+
+/* Comment */
+.comment-content {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.owner-avatar {
+    text-align: center;
+}
+
+.owner-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+}
+
+.comment-form-action {
+    text-align: right;
+}
+
+.comment-content {
+    border-color: #e6e6eb;
+}
+
+.comment-content:focus {
+    border-color: #6cb2eb;
+    outline: none;
+}
+
+.commented {
+    line-height: 50px;
+    min-height: 50px;
+    height: fit-content;
+}
+
+.tab-comment {
+    cursor: pointer;
+}
+
+.commenter-avatar img {
+    width: 20px;
+    height: 20px;
+    border-radius: 30px;
+}
+
+.md-contents p {
+    margin-bottom: unset;
+}
+
+.comment-meta {
+    font-size: 0.7rem;
+}
