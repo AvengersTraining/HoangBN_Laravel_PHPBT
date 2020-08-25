@@ -4,12 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Tag;
 use App\Post;
+use Exception;
 use App\Http\Requests\PostRequest;
 use App\Http\Requests\VoteRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:web')->only('index');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +25,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('post.index');
+        $posts = Post::where('user_id', Auth::user()->id)->latest()->with('tags')->get();
+
+        return view('post.index', compact('posts'));
     }
 
     /**
