@@ -1,5 +1,3 @@
-const { entries } = require("lodash");
-
 $(function(){
     let url = new URL(window.location.href),
         type = url.searchParams.get("type");

@@ -7,9 +7,13 @@
             <div class="container">
                 <div class="col-md-1">
                     <div class="votes" post-vote-url="{{ route('posts.vote', $post->id) }}">
-                        <button class="btn voted {{ (!empty($userVoted) && $userVoted->pivot->type) ? 'voted-btn' : ''}}" id="up-vote"><i class="fa fa-caret-up"></i></button>
+                        <button class="btn voted {{ (!empty($userVoted) && $userVoted->pivot->type) ? 'voted-btn' : ''}}" id="up-vote" @guest disabled @endguest>
+                            <i class="fa fa-caret-up"></i>
+                        </button>
                         <div class="points-vote {{ !empty($userVoted) ? 'voted-btn' : '' }}">{{ $totalVote }}</div>
-                        <button class="btn voted {{ (!empty($userVoted) && !$userVoted->pivot->type) ? 'voted-btn' : ''}}" id="down-vote"><i class="fa fa-caret-down"></i></button>
+                        <button class="btn voted {{ (!empty($userVoted) && !$userVoted->pivot->type) ? 'voted-btn' : ''}}" id="down-vote" @guest disabled @endguest>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="col-md-7"></div>

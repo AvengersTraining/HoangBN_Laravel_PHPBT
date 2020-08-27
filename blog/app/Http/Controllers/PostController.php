@@ -53,13 +53,16 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $totalVote = $this->countVote($post);
-        $userVoted = $post->votedUsers()->where('user_id', Auth::user()->id)->first();
+        $userVoted = false;
+        if (Auth::check()) {
+            $userVoted = $post->votedUsers()->where('user_id', Auth::user()->id)->first();
+        }
         $tags = Tag::join('post_tag', 'tags.id', '=', 'post_tag.tag_id')
                 ->where('post_tag.post_id', $post->id)
                 ->get();
 
-        $comments = $post->comments()->whereNull('parent_comment_id')->with('user')->get();
-        $replies = $post->comments()->whereNotNull('parent_comment_id')->with('user')->get();
+        $comments = $post->comments()->oldest()->whereNull('parent_comment_id')->with('user')->get();
+        $replies = $post->comments()->oldest()->whereNotNull('parent_comment_id')->with('user')->get();
         $replies = $replies->groupBy('parent_comment_id');
 
         return view('post.show', compact('post', 'tags', 'totalVote', 'userVoted', 'comments', 'replies'));
@@ -127,10 +130,5 @@ class PostController extends Controller
         }
 
         return $totalVote;
-    }
-
-    public function writeComment()
-    {
-        // Do something
     }
 }
