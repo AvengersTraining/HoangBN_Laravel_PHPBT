@@ -14,6 +14,8 @@ return [
         'type' => [
             'followings' => 'followings',
             'newest' => 'newest',
+            'drafts' => 'drafts',
+            'publish' => 'publish',
         ],
         'popular' => 15,
         'up_vote' => 1,
