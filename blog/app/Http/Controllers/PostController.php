@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Tag;
 use App\Post;
 use Exception;
+use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use App\Http\Requests\VoteRequest;
 use Illuminate\Support\Facades\Log;
@@ -23,9 +24,17 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::where('user_id', Auth::user()->id)->latest()->with('tags')->get();
+        switch ($request->get('type')) {
+            case config('blog.posts.type.publish'):
+                $posts = $this->getPostsOfUser();
+                break;
+            case config('blog.posts.type.drafts'):
+            default:
+                $posts = $this->getPostsOfUser(false);
+                break;
+        }
 
         return view('post.index', compact('posts'));
     }
@@ -176,5 +185,21 @@ class PostController extends Controller
         }
 
         return $totalVote;
+    }
+
+    public function getPostsOfUser($isPublished = true)
+    {
+        $postPublished = Post::where('user_id', Auth::user()->id)
+            ->where('user_id', Auth::user()->id)
+            ->latest()
+            ->with('tags');
+
+        if ($isPublished) {
+            $postPublished = $postPublished->published();
+        } else {
+            $postPublished = $postPublished->drafts();
+        }
+
+        return $postPublished->paginate(config('blog.posts.post_limit'));
     }
 }
