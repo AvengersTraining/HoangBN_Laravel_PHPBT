@@ -36,4 +36,5 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
 
 Route::resource('tags', 'Tag\TagController', ['middleware' => ['auth:web', 'admin']]);
 Route::put('/posts/{post}/vote/', 'PostController@updateVoted')->name('posts.vote');
-Route::resource('posts', 'PostController', ['middleware' => ['auth:web']]);
+Route::resource('posts', 'PostController');
+Route::resource('comments', 'CommentController', ['middleware' => ['auth:web']]);

@@ -235,7 +235,7 @@ h4, h5 {
 }
 
 /* Comment */
-.comment-content {
+.comment-content, .reply-content {
     width: 100%;
     border-radius: 5px;
 }
@@ -250,15 +250,20 @@ h4, h5 {
     border-radius: 40px;
 }
 
-.comment-form-action {
+.comment-form-action, .reply-form-action {
     text-align: right;
 }
 
-.comment-content {
+.comment-content, .reply-content {
     border-color: #e6e6eb;
 }
 
 .comment-content:focus {
+    border-color: #6cb2eb;
+    outline: none;
+}
+
+.reply-content:focus {
     border-color: #6cb2eb;
     outline: none;
 }
@@ -285,4 +290,21 @@ h4, h5 {
 
 .comment-meta {
     font-size: 0.7rem;
+}
+
+.comment-no-login {
+    text-align: center;
+}
+
+.comment-no-login span {
+    font-weight: 900;
+}
+
+hr {
+    margin-top: unset;
+    margin-bottom: 5px;
+}
+
+.reply, .delete-comment, .delete-reply {
+    cursor: pointer;
 }
