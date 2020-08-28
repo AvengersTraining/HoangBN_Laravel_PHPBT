@@ -19,5 +19,7 @@ return [
         'up_vote' => 1,
         'down_vote' => 0,
         'remove_vote' => 2,
+        'published' => 1,
+        'un_published' => 0,
     ],
 ];
