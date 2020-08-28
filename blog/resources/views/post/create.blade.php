@@ -7,7 +7,7 @@
 
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <input class="card post-title @error('title') is-invalid @enderror" type="text " name="title" autocomplete="off" placeholder="Title">
+                <input class="card post-title @error('title') is-invalid @enderror" type="text" name="title" autocomplete="off" placeholder="Title" value="{{ old('title') }}">
                 @error('title')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -17,8 +17,8 @@
                 <br/>
                 <div class="row justify-content-center">
                     <div class="col-md-11">
-                        <input class="card post-tag @error('tag') is-invalid @enderror" type="text " name="tag" autocomplete="off" placeholder="Tag your post">
-                        @error('tag')
+                        <input class="card post-tag @error('tags') is-invalid @enderror" name="tags" autocomplete="off" placeholder="Tag your post" value="{{ old('tags') }}">
+                        @error('tags')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -38,7 +38,7 @@
                 </div>
                 <br/>
                 
-                <textarea class="card @error('content') is-invalid @enderror" name="content" id="editor"></textarea>
+                <textarea class="card @error('content') is-invalid @enderror" name="content" id="editor" value="{{ old('content') }}"></textarea>
                 @error('content')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

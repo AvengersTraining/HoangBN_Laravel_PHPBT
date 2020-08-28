@@ -17,7 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return view('post.index');
     }
 
     /**
@@ -40,7 +40,43 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        // Insert new post
+        try {
+            $timeCurrent = now();
+            $data = [
+                'user_id' => Auth::user()->id,
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+                'is_published' => $request->input('type') == 'publish' ? config('blog.posts.published') : config('blog.posts.un_published'),
+            ];
+            
+            $post = Post::create($data);
+            if ($post) {
+                $tags = json_decode($request->input('tags'));
+                $tagIds = [];
+                foreach ($tags as $key => $tag) {
+                    if (empty($tag->id)) {
+                        $newTag = [
+                            'tag_name' => $tag->value,
+                            'created_at' => $timeCurrent,
+                            'updated_at' => $timeCurrent,
+                        ];
+
+                        $tagIds[] = Tag::insertGetId($newTag);
+                    } else {
+                        $tagIds[] = $tag->id;
+                    }
+                }
+
+                if (!empty($tagIds)) {
+                    $post->tags()->attach($tagIds);
+                }
+            }
+
+            return redirect()->route('posts.index');
+        } catch (Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('error', 'Create post failure');
+        }
     }
 
     /**
@@ -53,12 +89,19 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $totalVote = $this->countVote($post);
-        $userVoted = $post->votedUsers()->where('user_id', Auth::user()->id)->first();
+        $userVoted = false;
+        if (Auth::check()) {
+            $userVoted = $post->votedUsers()->where('user_id', Auth::user()->id)->first();
+        }
         $tags = Tag::join('post_tag', 'tags.id', '=', 'post_tag.tag_id')
                 ->where('post_tag.post_id', $post->id)
                 ->get();
 
-        return view('post.show', compact('post', 'tags', 'totalVote', 'userVoted'));
+        $comments = $post->comments()->oldest()->whereNull('parent_comment_id')->with('user')->get();
+        $replies = $post->comments()->oldest()->whereNotNull('parent_comment_id')->with('user')->get();
+        $replies = $replies->groupBy('parent_comment_id');
+
+        return view('post.show', compact('post', 'tags', 'totalVote', 'userVoted', 'comments', 'replies'));
     }
 
     /**
