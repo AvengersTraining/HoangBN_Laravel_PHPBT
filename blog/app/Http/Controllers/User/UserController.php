@@ -7,7 +7,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -39,7 +39,7 @@ class UserController extends Controller
     /**
      * Update user information
      */
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UserRequest $request, $id)
     {
         try {
             $data = [

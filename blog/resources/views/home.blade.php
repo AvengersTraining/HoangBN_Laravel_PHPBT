@@ -58,7 +58,7 @@
                 </div>
                 <div class="card-body card-post">
                     @foreach ($popularPosts as $key => $popular)
-                    <a href="{{ route('posts.show', $post->id) }}" class="post-item">
+                    <a href="{{ route('posts.show', $popular->id) }}" class="post-item">
                         <div class="popular-post">
                             <article>
                                 <h5 id="title">{{ $popular->title }}</h5>
