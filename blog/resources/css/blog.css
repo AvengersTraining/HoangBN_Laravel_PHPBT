@@ -268,7 +268,7 @@ h4, h5 {
     outline: none;
 }
 
-.commented {
+.no-comment {
     line-height: 50px;
     min-height: 50px;
     height: fit-content;

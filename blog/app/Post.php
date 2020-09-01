@@ -68,4 +68,9 @@ class Post extends Model
     {
         return $query->where('is_published', config('blog.posts.published'));
     }
+
+    public function scopeDrafts($query)
+    {
+        return $query->where('is_published', config('blog.posts.un_published'));
+    }
 }
