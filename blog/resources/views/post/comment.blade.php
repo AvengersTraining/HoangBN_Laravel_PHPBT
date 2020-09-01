@@ -71,7 +71,7 @@
             @endforeach
         </div>
         @else
-        <div class="commented">
+        <div class="no-comment">
             <i aria-hidden="true" class="fa fa-comment-o"></i>
             {{ __('No comments, yet') }}
         </div>
@@ -121,40 +121,100 @@
     $('.post-comment').click(function () {
         let commentContent = $(this).closest('.comment-form').find('.comment-content').val();
             commentUrl = $(this).closest('.comment-form').attr('comment-url');
-            element = $('.comment-thread-root').last();
-            
-        handleComment(commentContent, commentUrl, element);
+            noComment = $(this).closest('.comments').find('.no-comment');
+
+        if (noComment.length) {
+            let element = $('.comment-threads');
+            firstComment(commentContent, commentUrl, element, noComment);
+        } else {
+            let element = $('.comment-thread-root').last();
+            handleComment(commentContent, commentUrl, element);
+        }
     });
 
     $(document).on('click', '.post-reply', function () {
         let replyContent = $(this).closest('.reply-form').first().find('.reply-content').val();
             replyUrl = $(this).closest('.reply-form').attr('reply-url');
             parentCommentId = $(this).closest('.reply-form').attr('form-id');
-            element = $(this).closest('.comment-thread-root').first().find('.reply-thread-root').last();
+            element = $(this).closest('.comment-thread-root').first().find('.list-reply-transition').last();
+
+            if (!element.length) {
+                element = $(this).closest('.comment-thread-root').first().find('footer');
+            }
             replyForm = $(this).closest('.reply-form').first();
 
         handleComment(replyContent, replyUrl, element, replyForm, parentCommentId);
     });
+
+    function firstComment (content, commentUrl, element, noComment) {
+        if (content == "") {
+            return;
+        }
+        
+        let data = {
+                user_id:"{{ Auth::user()->id }}",
+                post_id:"{{ $post->id }}",
+                content: content
+            };
+
+        $.ajax ({
+            url: commentUrl,
+            type: 'POST',
+            data: {
+                comment: data
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (result) {
+                if (!result.success) return;
+                let comment = result.success;
+                    commentHtml = `<div class="card mt-4">
+                                        <div class="list-transition">
+                                            <div class="comment-thread-root p-3">
+                                                <header class="d-flex flex-wrap justify-content-between">
+                                                    <div class="user--inline d-inline-flex flex-shrink-0 commenter-avatar">
+                                                        <a href="#" class="d-flex mr-1">
+                                                            <img src="{{ Auth::user()->avatar }}" alt="User avatar">
+                                                        </a>
+                                                        <span>
+                                                            <a href="#">{{ Auth::user()->display_name }}</a>
+                                                        </span>
+                                                    </div>
+                                                    <div class="comment-meta word-break">
+                                                        <span class="text-muted">${comment.updated_at }</span>
+                                                    </div>
+                                                </header>
+                                                <div class="md-contents mt-2">
+                                                    <p>${comment.content}</p>
+                                                </div>
+                                                <footer class="d-flex text-muted">
+                                                    <span class="mr-05 reply" data-comment-id="${comment.id}">Reply</span>
+                                                    <span class="mr-05 delete-comment ml-2" delete-url="${comment.delete_url}">Delete</span>
+                                                </footer>
+                                            </div> 
+                                        </div>
+                                    </div>`;
+
+                element.after(commentHtml);
+                $('.comment-content').val('');
+                noComment.parent().remove();
+            },
+        });
+    }
 
     function handleComment (content, commentUrl, element, form = null, parentCommentId = null) {
         if (content == "") {
             return;
         }
         
-        let data;
-        if (parentCommentId != null) {
-            data = {
-                user_id:"{{ Auth::user()->id }}",
-                post_id:"{{ $post->id }}",
-                content: content,
-                parentCommentId: parentCommentId
-            };
-        } else {
-            data = {
+        let data = {
                 user_id:"{{ Auth::user()->id }}",
                 post_id:"{{ $post->id }}",
                 content: content
             };
+        if (parentCommentId != null) {
+            data["parentCommentId"] = parentCommentId;
         }
 
         $.ajax ({
@@ -170,36 +230,38 @@
                 if (!result.success) return;
                 
                 let html='';
-                comment = result.success;
+                    comment = result.success;
+
                 if (parentCommentId != null) {
-                    html = `<div class="reply-thread-root" parent-comment-id="${parentCommentId}">
+                    html = `<div class="list-reply-transition pl-4 pt-2">
                                 <hr>
-                                <header class="d-flex flex-wrap justify-content-between">
-                                    <div class="user--inline d-inline-flex flex-shrink-0 commenter-avatar">
-                                        <a href="#" class="d-flex mr-1">
-                                            <img src="{{ Auth::user()->avatar }}" alt="User avatar">
-                                        </a>
-                                        <span>
-                                            <a href="#">{{ Auth::user()->display_name }}</a>
-                                        </span>
+                                <div class="reply-thread-root" parent-comment-id="${parentCommentId}">
+                                    <header class="d-flex flex-wrap justify-content-between">
+                                        <div class="user--inline d-inline-flex flex-shrink-0 commenter-avatar">
+                                            <a href="#" class="d-flex mr-1">
+                                                <img src="{{ Auth::user()->avatar }}" alt="User avatar">
+                                            </a>
+                                            <span>
+                                                <a href="#">{{ Auth::user()->display_name }}</a>
+                                            </span>
+                                        </div>
+                                        <div class="comment-meta word-break">
+                                            <span class="text-muted">${comment.updated_at}</span>
+                                        </div>
+                                    </header>
+                                    <div class="md-contents mt-2">
+                                        <p>${comment.content}</p>
                                     </div>
-                                    <div class="comment-meta word-break">
-                                        <span class="text-muted">${comment.updated_at}</span>
-                                    </div>
-                                </header>
-                                <div class="md-contents mt-2">
-                                    <p>${comment.content}</p>
+                                    <footer class="d-flex text-muted">
+                                        <span class="mr-05 delete-reply" delete-url="${comment.delete_url}">Delete</span>
+                                    </footer>
                                 </div>
-                                <footer class="d-flex text-muted">
-                                    <span class="mr-05 delete-reply" delete-url="${comment.delete_url}">Delete</span>
-                                </footer>
                             </div>`;
                     
                     if (form != null) {
                         form.remove();
                     }
                 } else {
-                    console.log('Comment');
                     html =  `<div class="comment-thread-root p-3">
                                 <header class="d-flex flex-wrap justify-content-between">
                                     <div class="user--inline d-inline-flex flex-shrink-0 commenter-avatar">

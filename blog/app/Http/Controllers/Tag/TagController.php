@@ -115,12 +115,12 @@ class TagController extends Controller
     public function destroy($id)
     {
         try {
-            $result = Tag::where('id', $id)->delete();
-            if ($result) {
-                return redirect()->back()->with('message', 'Delete tag successfuly');
-            }
+            $tag = Tag::findOrFail($id);
+            $tag->users()->detach();
+            $tag->posts()->detach();
+            $tag->delete();
 
-            return redirect()->back()->with('error', 'Delete tag failure');
+            return redirect()->back()->with('message', 'Delete tag successfuly');
         } catch (Exception $e) {
             Log::error($e);
 
