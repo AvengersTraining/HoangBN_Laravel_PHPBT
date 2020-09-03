@@ -16,7 +16,7 @@ class PostController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:web')->only('index');
+        $this->middleware('auth:web')->except('show');
     }
 
     /**
@@ -112,9 +112,8 @@ class PostController extends Controller
         if (Auth::check()) {
             $userVoted = $post->votedUsers()->where('user_id', Auth::user()->id)->first();
         }
-        $tags = Tag::join('post_tag', 'tags.id', '=', 'post_tag.tag_id')
-                ->where('post_tag.post_id', $post->id)
-                ->get();
+
+        $tags = $post->tags()->get();
 
         $comments = $post->comments()->oldest()->whereNull('parent_comment_id')->with('user')->get();
         $replies = $post->comments()->oldest()->whereNotNull('parent_comment_id')->with('user')->get();
@@ -131,7 +130,12 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tags = Tag::all('tag_name as value', 'id');
+        $post = Post::findOrFail($id);
+        $tagsOfPost = $post->tags()->pluck('tags.tag_name');
+        $tagsOfPost = json_encode($tagsOfPost);
+        
+        return view('post.edit', compact('post', 'tags', 'tagsOfPost'));
     }
 
     /**
@@ -143,7 +147,42 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, $id)
     {
-        //
+        try {
+            $data = [
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+                'is_published' => $request->input('type') == 'publish' ? config('blog.posts.published') : config('blog.posts.un_published'),
+            ];
+            
+            $post = Post::findOrFail($id);
+            $isUpdated = $post->update($data);
+            if ($isUpdated) {
+                $tags = json_decode($request->input('tags'));
+                $tagIds = [];
+                foreach ($tags as $key => $tag) {
+                    if (empty($tag->id)) {
+                        $newTag = [
+                            'tag_name' => $tag->value,
+                            'created_at' => $time = now(),
+                            'updated_at' => $time,
+                        ];
+
+                        $tagIds[] = Tag::insertGetId($newTag);
+                    } else {
+                        $tagIds[] = $tag->id;
+                    }
+                }
+
+                if (!empty($tagIds)) {
+                    $post->tags()->sync($tagIds);
+                }
+            }
+
+            return redirect()->route('posts.index');
+        } catch (Exception $e) {
+            Log::error($e);
+            return redirect()->back()->with('error', 'Create post failure');
+        }
     }
 
     /**

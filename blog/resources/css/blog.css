@@ -308,3 +308,13 @@ hr {
 .reply, .delete-comment, .delete-reply {
     cursor: pointer;
 }
+
+.post-action {
+    margin-left: auto;
+    width: fit-content;
+}
+
+.icon-action {
+    cursor: pointer;
+    color: #b7b7be;
+}
